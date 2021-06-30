@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Quiz = () => {
   // data source
@@ -35,11 +35,31 @@ const Quiz = () => {
     }
   ];
 
-  // TODO: current problem index
+  // current problem index
+  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+
+  const nextIndex = () => {
+    // not allowed greater than problems count
+    setCurrentProblemIndex((prev) => {
+      return prev === problems.length ? prev : prev + 1;
+    });
+  };
+
+  const prevIndex = () => {
+    // not allowed less than 0
+    setCurrentProblemIndex((prev) => {
+      return prev === 0 ? 0 : prev - 1;
+    });
+  };
+
+  // TODO: map problems on DOM
 
   return (
     <>
-      <div>quiz works</div>
+      <h3>quiz works</h3>
+      <div>Current Problem Index: {currentProblemIndex}</div>
+      <button onClick={prevIndex}>Prew</button>
+      <button onClick={nextIndex}>Next</button>
     </>
   );
 };
