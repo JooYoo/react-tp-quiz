@@ -41,7 +41,7 @@ const Quiz = () => {
   const nextIndex = () => {
     // not allowed greater than problems count
     setCurrentProblemIndex((prev) => {
-      return prev === problems.length ? prev : prev + 1;
+      return prev === problems.length - 1 ? prev : prev + 1;
     });
   };
 
@@ -52,12 +52,22 @@ const Quiz = () => {
     });
   };
 
-  // TODO: map problems on DOM
+  // TODO:  get user picked answers
 
   return (
     <>
-      <h3>quiz works</h3>
-      <div>Current Problem Index: {currentProblemIndex}</div>
+      <div> No. {currentProblemIndex}</div>
+
+      <form>
+        <h4>{problems[currentProblemIndex].question}</h4>
+        {problems[currentProblemIndex].answers.map((answer) => (
+          <div>
+            <input type="radio" />
+            <label>{answer.txt}</label>
+          </div>
+        ))}
+      </form>
+
       <button onClick={prevIndex}>Prew</button>
       <button onClick={nextIndex}>Next</button>
     </>
