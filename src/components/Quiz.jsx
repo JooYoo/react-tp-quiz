@@ -2,38 +2,40 @@ import React, { useState } from "react";
 
 const Quiz = () => {
   // data source
-  const problems = [
+  const initProblems = [
     {
       id: 1,
       question: "What is 1 + 1",
       answers: [
-        { txt: "1", isCorrect: false },
-        { txt: "2", isCorrect: true },
-        { txt: "3", isCorrect: false },
-        { txt: "4", isCorrect: false }
-      ]
+        { txt: "1", isCorrect: false, isChoice: false },
+        { txt: "2", isCorrect: true, isChoice: false },
+        { txt: "3", isCorrect: false, isChoice: false },
+        { txt: "4", isCorrect: false, isChoice: false }
+      ],
+      userChoice: ""
     },
     {
       id: 2,
       question: "What is 2 + 2",
       answers: [
-        { txt: "2", isCorrect: false },
-        { txt: "3", isCorrect: false },
-        { txt: "4", isCorrect: true },
-        { txt: "5", isCorrect: false }
+        { txt: "2", isCorrect: false, isChoice: false },
+        { txt: "3", isCorrect: false, isChoice: false },
+        { txt: "4", isCorrect: true, isChoice: false },
+        { txt: "5", isCorrect: false, isChoice: false }
       ]
     },
     {
       id: 3,
       question: "What is 3 + 3",
       answers: [
-        { txt: "3", isCorrect: false },
-        { txt: "4", isCorrect: false },
-        { txt: "5", isCorrect: false },
-        { txt: "6", isCorrect: true }
+        { txt: "3", isCorrect: false, isChoice: false },
+        { txt: "4", isCorrect: false, isChoice: false },
+        { txt: "5", isCorrect: false, isChoice: false },
+        { txt: "6", isCorrect: true, isChoice: false }
       ]
     }
   ];
+  const [problems, setProblems] = useState(initProblems);
 
   // current problem index
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
@@ -54,15 +56,28 @@ const Quiz = () => {
 
   // TODO:  get user picked answers
 
+  const getChoice = (choice) => {
+    // const newProblems = problems.map((problem) => {
+    //   if (problem.id === currentProblemIndex) {
+    //   }
+    //   return newProblems;
+    // });
+    // console.table(newProblems);
+  };
+
   return (
     <>
-      <div> No. {currentProblemIndex}</div>
+      <div> No. {currentProblemIndex + 1}</div>
 
       <form>
         <h4>{problems[currentProblemIndex].question}</h4>
-        {problems[currentProblemIndex].answers.map((answer) => (
-          <div>
-            <input type="radio" />
+        {problems[currentProblemIndex].answers.map((answer, id) => (
+          <div key={id}>
+            <input
+              type="radio"
+              value={answer.txt}
+              onChange={(e) => getChoice(e.target.value)}
+            />
             <label>{answer.txt}</label>
           </div>
         ))}
