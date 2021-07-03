@@ -4,35 +4,34 @@ const Quiz = () => {
   // data source
   const initProblems = [
     {
-      id: 1,
+      id: 0,
       question: "What is 1 + 1",
       answers: [
-        { txt: "1", isCorrect: false, isChoice: false },
-        { txt: "2", isCorrect: true, isChoice: false },
-        { txt: "3", isCorrect: false, isChoice: false },
-        { txt: "4", isCorrect: false, isChoice: false }
+        { txt: "0", isCorrect: false },
+        { txt: "1", isCorrect: false },
+        { txt: "2", isCorrect: true }
       ],
-      userChoice: ""
+      choice: ""
+    },
+    {
+      id: 1,
+      question: "What is 2 + 2",
+      answers: [
+        { txt: "3", isCorrect: false },
+        { txt: "4", isCorrect: true },
+        { txt: "5", isCorrect: false }
+      ],
+      choice: ""
     },
     {
       id: 2,
-      question: "What is 2 + 2",
-      answers: [
-        { txt: "2", isCorrect: false, isChoice: false },
-        { txt: "3", isCorrect: false, isChoice: false },
-        { txt: "4", isCorrect: true, isChoice: false },
-        { txt: "5", isCorrect: false, isChoice: false }
-      ]
-    },
-    {
-      id: 3,
       question: "What is 3 + 3",
       answers: [
-        { txt: "3", isCorrect: false, isChoice: false },
-        { txt: "4", isCorrect: false, isChoice: false },
-        { txt: "5", isCorrect: false, isChoice: false },
-        { txt: "6", isCorrect: true, isChoice: false }
-      ]
+        { txt: "6", isCorrect: true },
+        { txt: "7", isCorrect: false },
+        { txt: "8", isCorrect: false }
+      ],
+      choice: ""
     }
   ];
   const [problems, setProblems] = useState(initProblems);
@@ -54,16 +53,25 @@ const Quiz = () => {
     });
   };
 
-  // TODO:  get user picked answers
+  // get user picked answers
+  const [radio, setRadio] = useState("");
 
-  const getChoice = (choice) => {
-    // const newProblems = problems.map((problem) => {
-    //   if (problem.id === currentProblemIndex) {
-    //   }
-    //   return newProblems;
-    // });
-    // console.table(newProblems);
+  const getChoice = (userChoice) => {
+    // update UI
+    setRadio(userChoice);
+
+    // assign result to data
+    const newProblems = problems.map((problem) => {
+      if (problem.id === currentProblemIndex) {
+        return { ...problem, choice: userChoice };
+      }
+      return problem;
+    });
+
+    setProblems(newProblems);
   };
+
+  // TODO: get result
 
   return (
     <>
@@ -73,12 +81,15 @@ const Quiz = () => {
         <h4>{problems[currentProblemIndex].question}</h4>
         {problems[currentProblemIndex].answers.map((answer, id) => (
           <div key={id}>
+            <label>{answer.txt}</label>
             <input
               type="radio"
+              checked={radio === answer.txt}
               value={answer.txt}
-              onChange={(e) => getChoice(e.target.value)}
+              onChange={(e) => {
+                getChoice(e.target.value);
+              }}
             />
-            <label>{answer.txt}</label>
           </div>
         ))}
       </form>
