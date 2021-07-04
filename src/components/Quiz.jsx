@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Result from "./Result";
 
 const Quiz = () => {
   // data source
@@ -42,6 +43,11 @@ const Quiz = () => {
   const nextIndex = () => {
     // not allowed greater than problems count
     setCurrentProblemIndex((prev) => {
+      // check if show result
+      if (problems.length - 1 === prev) {
+        setIsResult(!isResult);
+      }
+
       return prev === problems.length - 1 ? prev : prev + 1;
     });
   };
@@ -49,6 +55,10 @@ const Quiz = () => {
   const prevIndex = () => {
     // not allowed less than 0
     setCurrentProblemIndex((prev) => {
+      // check if show result
+      if (isResult) {
+        setIsResult(!isResult);
+      }
       return prev === 0 ? 0 : prev - 1;
     });
   };
@@ -71,28 +81,37 @@ const Quiz = () => {
     setProblems(newProblems);
   };
 
-  // TODO: get result
+  // get result
+  const [isResult, setIsResult] = useState(false);
+
+  // TODO: currentProblemIndex -> thisIndex; as component
 
   return (
     <>
-      <div> No. {currentProblemIndex + 1}</div>
+      <div>
+        No. {currentProblemIndex + 1} / {problems.length}
+      </div>
 
-      <form>
-        <h4>{problems[currentProblemIndex].question}</h4>
-        {problems[currentProblemIndex].answers.map((answer, id) => (
-          <div key={id}>
-            <label>{answer.txt}</label>
-            <input
-              type="radio"
-              checked={radio === answer.txt}
-              value={answer.txt}
-              onChange={(e) => {
-                getChoice(e.target.value);
-              }}
-            />
-          </div>
-        ))}
-      </form>
+      {isResult && <Result />}
+
+      {!isResult && (
+        <div>
+          <h4>{problems[currentProblemIndex].question}</h4>
+          {problems[currentProblemIndex].answers.map((answer, id) => (
+            <div key={id}>
+              <label>{answer.txt}</label>
+              <input
+                type="radio"
+                checked={radio === answer.txt}
+                value={answer.txt}
+                onChange={(e) => {
+                  getChoice(e.target.value);
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       <button onClick={prevIndex}>Prew</button>
       <button onClick={nextIndex}>Next</button>
