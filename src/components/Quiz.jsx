@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ProblemNr from "./ProblemNr";
 import Result from "./Result";
 
 const Quiz = () => {
@@ -38,11 +39,11 @@ const Quiz = () => {
   const [problems, setProblems] = useState(initProblems);
 
   // current problem index
-  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+  const [thisIndex, setThisIndex] = useState(0);
 
   const nextIndex = () => {
     // not allowed greater than problems count
-    setCurrentProblemIndex((prev) => {
+    setThisIndex((prev) => {
       // check if show result
       if (problems.length - 1 === prev) {
         setIsResult(!isResult);
@@ -54,7 +55,7 @@ const Quiz = () => {
 
   const prevIndex = () => {
     // not allowed less than 0
-    setCurrentProblemIndex((prev) => {
+    setThisIndex((prev) => {
       // check if show result
       if (isResult) {
         setIsResult(!isResult);
@@ -72,7 +73,7 @@ const Quiz = () => {
 
     // assign result to data
     const newProblems = problems.map((problem) => {
-      if (problem.id === currentProblemIndex) {
+      if (problem.id === thisIndex) {
         return { ...problem, choice: userChoice };
       }
       return problem;
@@ -84,20 +85,18 @@ const Quiz = () => {
   // get result
   const [isResult, setIsResult] = useState(false);
 
-  // TODO: currentProblemIndex -> thisIndex; as component
+  // TODO: render the result page
 
   return (
     <>
-      <div>
-        No. {currentProblemIndex + 1} / {problems.length}
-      </div>
+      <ProblemNr thisIndex={thisIndex} problems={problems} />
 
       {isResult && <Result />}
 
       {!isResult && (
         <div>
-          <h4>{problems[currentProblemIndex].question}</h4>
-          {problems[currentProblemIndex].answers.map((answer, id) => (
+          <h4>{problems[thisIndex].question}</h4>
+          {problems[thisIndex].answers.map((answer, id) => (
             <div key={id}>
               <label>{answer.txt}</label>
               <input
