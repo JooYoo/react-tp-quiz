@@ -91,7 +91,7 @@ const Quiz = () => {
     <>
       <ProblemNr thisIndex={thisIndex} problems={problems} />
 
-      {isResult && <Result />}
+      {isResult && <Result problems={problems} />}
 
       {!isResult && (
         <div>
