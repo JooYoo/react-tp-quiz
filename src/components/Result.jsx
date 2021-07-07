@@ -14,21 +14,30 @@ const Result = ({ problems }) => {
       const rightAnswerObj = problem.answers.find(
         (answer) => answer.isCorrect === true
       );
-      console.log(rightAnswerObj);
 
-      // TODO: build result and push to
+      // build result
       const thisResult = {
-        problem: "",
-        rightAnswer: "",
-        yourAnswer: "",
-        isCorrect: false
+        question: problem.question,
+        rightAnswer: rightAnswerObj.txt,
+        yourAnswer: problem.choice,
+        isCorrect: rightAnswerObj.txt === problem.choice ? true : false
       };
+
+      // push each result to state
+      setResults(results.push(thisResult));
     });
+
+    console.table(results);
   };
 
   return (
     <>
-      <div>Result:</div>
+      <h4>Result:</h4>
+      {/* {results.map((result, index) => (
+        <div key={index}>
+          <p>{result.question}</p>
+        </div>
+      ))} */}
     </>
   );
 };
