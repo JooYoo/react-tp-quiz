@@ -9,6 +9,8 @@ const Result = ({ problems }) => {
   const [results, setResults] = useState(initResults);
 
   const getResult = () => {
+    const newResults = [];
+
     problems.forEach((problem) => {
       // find this Problem right answer
       const rightAnswerObj = problem.answers.find(
@@ -24,20 +26,25 @@ const Result = ({ problems }) => {
       };
 
       // push each result to state
-      setResults(results.push(thisResult));
+      newResults.push(thisResult);
     });
-
-    console.table(results);
+    setResults(newResults);
   };
 
   return (
     <>
       <h4>Result:</h4>
-      {/* {results.map((result, index) => (
+      {results.map((result, index) => (
         <div key={index}>
-          <p>{result.question}</p>
+          <p>
+            {result.isCorrect ? "✅" : "⭕"} {result.question}
+          </p>
+          <div>
+            Expect: {result.rightAnswer} Is: {result.yourAnswer}
+          </div>
+          <hr />
         </div>
-      ))} */}
+      ))}
     </>
   );
 };
