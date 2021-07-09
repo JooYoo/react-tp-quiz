@@ -36,11 +36,25 @@ const Quiz = () => {
       choice: ""
     }
   ];
+
   const [problems, setProblems] = useState(initProblems);
-
-  // current problem index
   const [thisIndex, setThisIndex] = useState(0);
+  const [radio, setRadio] = useState("");
+  const [isResult, setIsResult] = useState(false);
 
+  // reset all
+  const restart = () => {
+    // quit result
+    setIsResult(false);
+    // reset problems
+    setProblems(initProblems);
+    // reset radio
+    setRadio("");
+    // set index to
+    setThisIndex(0);
+  };
+
+  // get next Index
   const nextIndex = () => {
     // not allowed greater than problems count
     setThisIndex((prev) => {
@@ -53,6 +67,7 @@ const Quiz = () => {
     });
   };
 
+  // get Previous Index
   const prevIndex = () => {
     // not allowed less than 0
     setThisIndex((prev) => {
@@ -65,8 +80,6 @@ const Quiz = () => {
   };
 
   // get user picked answers
-  const [radio, setRadio] = useState("");
-
   const getChoice = (userChoice) => {
     // update UI
     setRadio(userChoice);
@@ -81,11 +94,6 @@ const Quiz = () => {
 
     setProblems(newProblems);
   };
-
-  // get result
-  const [isResult, setIsResult] = useState(false);
-
-  // TODO: render the result page
 
   return (
     <>
@@ -109,11 +117,13 @@ const Quiz = () => {
               />
             </div>
           ))}
+
+          <button onClick={prevIndex}>Prew</button>
+          <button onClick={nextIndex}>Next</button>
         </div>
       )}
 
-      <button onClick={prevIndex}>Prew</button>
-      <button onClick={nextIndex}>Next</button>
+      {isResult && <button onClick={restart}>restart</button>}
     </>
   );
 };
